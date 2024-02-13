@@ -1,34 +1,65 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { io } from "socket.io-client"
+import "./App.css";
+import HttpCall from "./components/HttpCall";
+import WebSocketCall from "./components/WebSocketCall";
+import { io } from "socket.io-client";
+import { useEffect, useState } from "react";
 
 function App() {
-  
+  const [socketInstance, setSocketInstance] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [buttonStatus, setButtonStatus] = useState(false);
+
+  const handleClick = () => {
+    if (buttonStatus === false) {
+      setButtonStatus(true);
+    } else {
+      setButtonStatus(false);
+    }
+  };
+
   useEffect(() => {
-    const socket = io("localhost:5000", {
-      transports: ["websocket"],
-      cors: {
-        origin: "http://localhost:3000/"
-      }
-    })
+    if (buttonStatus === true) {
+      const socket = io("localhost:5001/", {
+        transports: ["websocket"],
+        cors: {
+          origin: "http://localhost:3000/",
+        },
+      });
 
-    socket.on("connect", (data) => {
-      console.log(data)
-    })
+      setSocketInstance(socket);
 
-  })
+      socket.on("connect", (data) => {
+        console.log(data);
+      });
+
+      setLoading(false);
+
+      socket.on("disconnect", (data) => {
+        console.log(data);
+      });
+
+      return function cleanup() {
+        socket.disconnect();
+      };
+    }
+  }, [buttonStatus]);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        
-        <button>Submit.</button>
-      </header>
+      <h1>React/Flask App + socket.io</h1>
+      <div className="line">
+        <HttpCall />
+      </div>
+      {!buttonStatus ? (
+        <button onClick={handleClick}>turn chat on</button>
+      ) : (
+        <>
+          <button onClick={handleClick}>turn chat off</button>
+          <div className="line">
+            {!loading && <WebSocketCall socket={socketInstance} />}
+          </div>
+        </>
+      )}
     </div>
   );
 }
