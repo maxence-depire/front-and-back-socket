@@ -5,12 +5,12 @@ sio = socketio.Client()
 
 # Define event handlers
 @sio.on('connect')
-def on_connect():
-    print('Connected to server')
+def on_connect(data=None):
+    print('Connected to server : ', data)
 
 @sio.on('data')
-def on_data(data):
-    print('Received data from server:', data)
+def on_data(data=None):
+    print('Received data from server: ', data)
 
 @sio.on('disconnect')
 def on_disconnect():
