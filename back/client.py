@@ -1,4 +1,5 @@
 import socketio
+import time
 
 # Create a Socket.IO client
 sio = socketio.Client()
@@ -16,16 +17,17 @@ def on_data(data=None):
 def on_disconnect():
     print('Disconnected from server')
 
-# Connect to server
-sio.connect('http://localhost:5001')
-
-# Send data to server
-sio.emit('data', {'message': 'Hello from client'})
-
 # Keep the client running
 try:
+    # Connect to server
+    sio.connect('http://localhost:5000')
+
     while True:
-        pass
+        # Send data to server
+        sio.emit('data', {'message': 'Hello from client'})
+
+        time.sleep(1)
+
 except KeyboardInterrupt:
     # Disconnect on Ctrl+C
     sio.disconnect()
