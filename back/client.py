@@ -25,7 +25,7 @@ try:
     while True:
         # Send data to server
         sio.emit('data', {'message': 'Hello from client'})
-
+        # Let server some time for rest...
         time.sleep(1)
 
 except KeyboardInterrupt:
