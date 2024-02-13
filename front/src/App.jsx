@@ -1,6 +1,6 @@
 import "./App.css";
-import HttpCall from "./components/HttpCall";
-import WebSocketCall from "./components/WebSocketCall";
+import HttpCall from "./HttpCall";
+import WebSocketCall from "./WebSocketCall";
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 
