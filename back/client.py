@@ -20,7 +20,7 @@ def on_disconnect():
 # Keep the client running
 try:
     # Connect to server
-    sio.connect('http://localhost:5000')
+    sio.connect('http://localhost:5001')
 
     while True:
         # Send data to server

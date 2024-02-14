@@ -1,6 +1,6 @@
 import "./App.css";
-import HttpCall from "./HttpCall";
-import WebSocketCall from "./WebSocketCall";
+import HttpCall from "./components/HttpCall";
+import WebSocketCall from "./components/WebSocketCall";
 import { io } from "socket.io-client";
 import { useEffect, useState } from "react";
 
@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     if (buttonStatus === true) {
-      const socket = io("localhost:5000/", {
+      const socket = io("localhost:5001/", {
         transports: ["websocket"],
         cors: {
           origin: "http://localhost:3000/",

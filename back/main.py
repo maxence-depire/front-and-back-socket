@@ -27,7 +27,7 @@ def handle_message(data):
     emit("data",{'data':data,'id':request.sid},broadcast=True)
 
 @socketio.on("disconnect")
-def disconnected():
+def disconnected(data=None):
     """event listener when client disconnects to the server"""
     print("user disconnected")
     emit("disconnect",f"user {request.sid} disconnected",broadcast=True)
